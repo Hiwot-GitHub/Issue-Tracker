@@ -1,6 +1,6 @@
 'use client';
-import { Button, Callout, TextField, Text } from '@radix-ui/themes';
-import SimpleMDE from "react-simplemde-editor";
+import { Button, Callout, TextField } from '@radix-ui/themes';
+import dynamic from 'next/dynamic';
 import "easymde/dist/easymde.min.css";
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
@@ -11,16 +11,20 @@ import { createIssueSchema } from '@/app/validationSchemas';
 import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
+import delay from 'delay';
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false});
 
 type IssueForm = z.infer<typeof createIssueSchema>
 
-const newIssuePage = () => {
+const newIssuePage = async () => {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({resolver: zodResolver(createIssueSchema)});
-  
+  await delay(200);
   return (
+   
     <div className='max-w-xl'>
      {error && <Callout.Root color='red' className='mb-5'>
       <Callout.Text>{error}</Callout.Text></Callout.Root>}
