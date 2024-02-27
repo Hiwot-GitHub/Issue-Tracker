@@ -4,7 +4,6 @@ import { createIssueSchema } from '@/app/validationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Callout, TextField } from '@radix-ui/themes';
 import axios from 'axios';
-import delay from 'delay';
 import "easymde/dist/easymde.min.css";
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -21,7 +20,7 @@ const newIssuePage = async () => {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({resolver: zodResolver(createIssueSchema)});
-  await delay(200);
+
   return (
    
     <div className='max-w-xl'>
