@@ -9,13 +9,12 @@ import toast, { Toaster } from 'react-hot-toast'
 
 
 const Assignee = ({ issue }: {issue: Issue}) => {
-   
     const {data: users, error, isLoading} = useUsers();
 
     if (isLoading) return <Skeleton />
 
     if (error) return null;
-
+    
     const assignIssue = (userId: string) => {
         axios.patch('/api/issues/' + issue.id, { assignedToUserId: userId || null })
         .catch(() => {
@@ -26,12 +25,12 @@ const Assignee = ({ issue }: {issue: Issue}) => {
   
   return (
     <>
-    <Select.Root defaultValue={issue.assignedToUserId || ""} onValueChange={assignIssue}>
+    <Select.Root defaultValue={issue.assignedToUserId || ""} onValueChange={assignIssue} >
         <Select.Trigger placeholder='Unassigned' />
         <Select.Content>
             <Select.Group>
                 <Select.Label>UI Devs</Select.Label>
-              
+                
                 { users?.map((user) => (
                      <Select.Item key={user.id} value={user.id}>{user.name}</Select.Item>
                 ))}
